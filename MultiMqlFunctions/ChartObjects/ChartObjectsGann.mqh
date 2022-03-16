@@ -64,7 +64,7 @@ bool ChartObjGannFan(string   name,
    
    if (! objGannFan.Create(chartId, name, window, time1, price1, time2, ppb))
       return false;
-   if (! objGannFan.Downtrend(downtrend))
+   if (downtrend && ! objGannFan.Downtrend(downtrend))
       return false;
    
    if (! autoRemove)
@@ -99,7 +99,7 @@ bool ChartObjGannGrid(string   name,
    
    if (! objGannGrid.Create(chartId, name, window, time1, price1, time2, ppb))
       return false;
-   if (! objGannGrid.Downtrend(downtrend))
+   if (downtrend && ! objGannGrid.Downtrend(downtrend))
       return false;
    
    if (! autoRemove)
