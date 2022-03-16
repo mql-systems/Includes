@@ -76,7 +76,7 @@ bool ChartObjRegression(string   name,
 }
 
 //+------------------------------------------------------------------+
-//| ChartObject - CChartObjectStdDevChannel                          |
+//| ChartObject - StdDevChannel                                      |
 //+------------------------------------------------------------------+
 bool ChartObjStdDevChannel(string   name,
                            datetime time1,
@@ -107,7 +107,7 @@ bool ChartObjStdDevChannel(string   name,
 }
 
 //+------------------------------------------------------------------+
-//| ChartObject - CChartObjectPitchfork                              |
+//| ChartObject - Pitchfork                                          |
 //+------------------------------------------------------------------+
 bool ChartObjPitchfork(string   name,
                        datetime time1,

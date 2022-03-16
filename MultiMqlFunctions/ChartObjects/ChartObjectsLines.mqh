@@ -132,7 +132,7 @@ bool ChartObjTrend(string   name,
 }
 
 //+------------------------------------------------------------------+
-//| ChartObject - Trend By Angle                                     |
+//| ChartObject - TrendByAngle                                       |
 //+------------------------------------------------------------------+
 bool ChartObjTrendByAngle(string   name,
                           datetime time1,
