@@ -1,3 +1,7 @@
+# MT4/5 & MQL4/5
+*.ex4
+*.ex5
+
 # Sublime text
 *.sublime-project
 *.sublime-workspace
