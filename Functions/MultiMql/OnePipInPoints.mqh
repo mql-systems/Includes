@@ -1,5 +1,5 @@
 //+------------------------------------------------------------------+
-//|                                               OnePointInPips.mqh |
+//|                                               OnePipInPoints.mqh |
 //|                            Copyright 2022. Diamond Systems Corp. |
 //|                                   https://github.com/mql-systems |
 //+------------------------------------------------------------------+
@@ -7,9 +7,9 @@
 #property link      "https://github.com/mql-systems"
 
 //+------------------------------------------------------------------+
-//| One point in pips                                                |
+//| One pip in points                                                |
 //+------------------------------------------------------------------+
-int OnePointInPips(const string symbol)
+int OnePipInPoints(const string symbol)
 {
    int monthBarsCnt = 24*30;
    MqlRates rates[];
