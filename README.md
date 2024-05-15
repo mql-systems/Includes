@@ -1,6 +1,6 @@
 # MQL4 and MQL5 includes (lib)
 
-**MQL library** with convenient and ready-made solutions.
+**MQL libraries** with convenient and ready-made solutions. They are written in the form of MuliMQL, that is, they can be connected in both MQL4 and MQL5.
 
 ## [DOC](https://github.com/mql-systems/Includes/wiki)
 
