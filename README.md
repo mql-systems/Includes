@@ -4,4 +4,4 @@ MQL libraries with convenient and ready-to-use solutions. They are written in th
 
 ## [DOC](https://github.com/mql-systems/Includes/wiki)
 
-Installation, updates, ENV, libraries, etc., can be found in the Wiki section.
+[Installation](https://github.com/mql-systems/Includes/wiki/Install), [updates](https://github.com/mql-systems/Includes/wiki/Update), ENV, libraries, etc., can be found in the [Wiki](https://github.com/mql-systems/Includes/wiki) section.
