@@ -6,7 +6,7 @@
 #property copyright "Diamond Systems Corp."
 #property link      "https://github.com/mql-systems"
 
-#include <DS\Include\Env\MultiMql\MqlToMql.mqh>
+#include <MqlSystems/Env/MqlToMql.mqh>
 
 //+------------------------------------------------------------------+
 //| Calculate profit                                                 |
