@@ -36,14 +36,15 @@ enum ENUM_WIN_THEME_COLORS
     WIN_THEME_COLOR_GRAYTEXT = 17,                // Grayed (disabled) text. This color is set to 0 if the current display driver does not support a solid gray color.
     WIN_THEME_COLOR_BTNTEXT = 18,                 // Text on push buttons. The associated background color is COLOR_BTNFACE.
     WIN_THEME_COLOR_INACTIVECAPTIONTEXT = 19,     // Color of text in an inactive caption. The associated background color is COLOR_INACTIVECAPTION. Windows 10 or greater:This value is not supported.
-    WIN_THEME_COLOR_3DHIGHLIGHT = 20,             // Highlight color for three-dimensional display elements (for edges facing the light source). Windows 10 or greater: This value is not supported.
+    WIN_THEME_COLOR_BTNHILIGHT = 20,             // Highlight color for three-dimensional display elements (for edges facing the light source). Windows 10 or greater: This value is not supported.
+//    WIN_THEME_COLOR_3DHIGHLIGHT = 20,
 //    WIN_THEME_COLOR_3DHILIGHT = 20,
 //    WIN_THEME_COLOR_BTNHIGHLIGHT = 20,
-//    WIN_THEME_COLOR_BTNHILIGHT = 20,
     WIN_THEME_COLOR_3DDKSHADOW = 21,              // Dark shadow for three-dimensional display elements. Windows 10 or greater: This value is not supported.
     WIN_THEME_COLOR_3DLIGHT = 22,                 // Light color for three-dimensional display elements (for edges facing the light source). Windows 10 or greater: This value is not supported.
     WIN_THEME_COLOR_INFOTEXT = 23,                // Text color for tooltip controls. The associated background color is COLOR_INFOBK. Windows 10 or greater:This value is not supported.
     WIN_THEME_COLOR_INFOBK = 24,                  // Background color for tooltip controls. The associated foreground color is COLOR_INFOTEXT. Windows 10 or greater:This value is not supported.
+    WIN_THEME_COLOR_BTNALTERNATEFACE = 25,        // ButtonAlternateFace
     WIN_THEME_COLOR_HOTLIGHT = 26,                // Color for a hyperlink or hot-tracked item. The associated background color is COLOR_WINDOW.
     WIN_THEME_COLOR_GRADIENTACTIVECAPTION = 27,   // Right side color in the color gradient of an active window's title bar. COLOR_ACTIVECAPTION specifies the left side color. Use SPI_GETGRADIENTCAPTIONS with the SystemParametersInfo function to determine whether the gradient effect is enabled. Windows 10 or greater: This value is not supported.
     WIN_THEME_COLOR_GRADIENTINACTIVECAPTION = 28, // Right side color in the color gradient of an inactive window's title bar. COLOR_INACTIVECAPTION specifies the left side color. Windows 10 or greater: This value is not supported.
