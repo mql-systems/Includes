@@ -11,6 +11,45 @@
 //|                                                                                          |
 //| @link https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getsyscolor |
 //+------------------------------------------------------------------------------------------+
+#define WIN_THEME_DARK {\
+    C'137,137,137',\   // COLOR_SCROLLBAR (Scrollbar)
+    C'11,11,11',\      // COLOR_BACKGROUND (Background)
+    C'11,11,11',\      // COLOR_ACTIVECAPTION (ActiveTitle)
+    C'11,11,11',\      // COLOR_INACTIVECAPTION (InactiveTitle)
+    C'18,18,18',\      // COLOR_MENU (Menu)
+    C'11,11,11',\      // COLOR_WINDOW (Window)
+    C'255,255,255',\   // COLOR_WINDOWFRAME (WindowFrame)
+    C'128,128,128',\   // COLOR_MENUTEXT (MenuText)
+    C'128,128,128',\   // COLOR_WINDOWTEXT (WindowText)
+    C'192,192,192',\   // COLOR_CAPTIONTEXT (TitleText)
+    C'18,18,18',\      // COLOR_ACTIVEBORDER (ActiveBorder)
+    C'18,18,18',\      // COLOR_INACTIVEBORDER (InactiveBorder)
+    C'11,11,11',\      // COLOR_APPWORKSPACE (AppWorkspace)
+    C'128,128,255',\   // COLOR_HIGHLIGHT (Hilight)
+    C'0,0,0',\         // COLOR_HIGHLIGHTTEXT (HilightText)
+    C'18,18,18',\      // COLOR_BTNFACE (ButtonFace)
+    C'11,11,11',\      // COLOR_BTNSHADOW (ButtonShadow)
+    C'44,44,44',\      // COLOR_GRAYTEXT (GrayText)
+    C'192,192,192',\   // COLOR_BTNTEXT (ButtonText)
+    C'128,128,128',\   // COLOR_INACTIVECAPTIONTEXT (InactiveTitleText)
+    C'65,65,65',\      // COLOR_BTNHILIGHT (ButtonHilight)
+    C'65,65,65',\      // COLOR_3DDKSHADOW (ButtonDkShadow)
+    C'18,18,18',\      // COLOR_3DLIGHT (ButtonLight)
+    C'128,128,255',\   // COLOR_INFOTEXT (InfoText)
+    C'0,0,0',\         // COLOR_INFOBK (InfoWindow)
+    C'192,192,192',\   // COLOR_BTNALTERNATEFACE (ButtonAlternateFace)
+    C'128,128,255',\   // COLOR_HOTLIGHT (HotTrackingColor)
+    C'11,11,11',\      // COLOR_GRADIENTACTIVECAPTION (GradientActiveTitle)
+    C'0,0,0',\         // COLOR_GRADIENTINACTIVECAPTION (GradientInactiveTitle)
+    C'0,128,0',\       // COLOR_MENUHILIGHT (MenuHilight)
+    C'0,0,0',\         // COLOR_MENUBAR (MenuBar)
+};
+
+//+------------------------------------------------------------------------------------------+
+//| Display color elements for win32 functions SetSysColors and GetSysColor                  |
+//|                                                                                          |
+//| @link https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getsyscolor |
+//+------------------------------------------------------------------------------------------+
 enum ENUM_WIN_THEME_COLORS
 {
     WIN_THEME_COLOR_SCROLLBAR = 0,                // Scroll bar gray area. Windows 10 or greater:This value is not supported.
