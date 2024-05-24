@@ -34,3 +34,18 @@ void PrintError(string msg, bool isGetLastError = false)
 }
 
 //+------------------------------------------------------------------+
+//| Incorrect input data (for OnInit function)                       |
+//+------------------------------------------------------------------+
+int IncorrectInputDataMsg(string msg, string title = NULL, int flags = MB_OK|MB_ICONSTOP)
+{
+   MessageBox(msg, title, flags);
+
+   if (title != NULL)
+      msg += StringFormat("[%s]", title);
+
+   PrintError(msg);
+   
+   return INIT_PARAMETERS_INCORRECT;
+}
+
+//+------------------------------------------------------------------+
