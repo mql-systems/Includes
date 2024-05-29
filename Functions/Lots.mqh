@@ -39,7 +39,7 @@ int LotDigits(string symbol = NULL)
 //+------------------------------------------------------------------+
 //| Normalization of the lot                            |
 //+------------------------------------------------------------------+
-double NormalizeLot(double lots, string symbol = NULL)
+double NormalizeLot(double lot, string symbol = NULL)
 {
    if (symbol == NULL)
       symbol = _Symbol;
@@ -48,24 +48,24 @@ double NormalizeLot(double lots, string symbol = NULL)
    double lotMax = SymbolInfoDouble(symbol, SYMBOL_VOLUME_MAX);
    double lotStep = SymbolInfoDouble(symbol, SYMBOL_VOLUME_STEP);
 
-   if (lots < lotMin)
+   if (lot < lotMin)
       return lotMin;
-   if (lotMax > 0.0 && lotMax < lots)
+   if (lotMax > 0.0 && lotMax < lot)
       return lotMax;
    if (lotStep <= 0)
-      return NormalizeDouble(lots, LotDigits(symbol));
-   if (lotStep >= lots)
+      return NormalizeDouble(lot, LotDigits(symbol));
+   if (lotStep >= lot)
       return lotStep;
 
-   return NormalizeDouble((int)(lots / lotStep) * lotStep, LotDigits(symbol));
+   return NormalizeDouble((int)(lot / lotStep) * lotStep, LotDigits(symbol));
 }
 
 //+------------------------------------------------------------------+
-//| Check lots step                                                  |
+//| Checking the lot on step                                         |
 //+------------------------------------------------------------------+
-bool CheckLotsStep(double lots, double step)
+bool CheckLotStep(double lot, double step)
 {
-   double r = NormalizeDouble(lots / step, 2);
+   double r = NormalizeDouble(lot / step, 2);
    
    return (NormalizeDouble(r-(int)r, 1) == 0.0);
 }
