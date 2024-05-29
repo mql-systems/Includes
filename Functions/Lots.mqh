@@ -48,13 +48,13 @@ double NormalizeLot(double lot, string symbol = NULL)
    double lotMax = SymbolInfoDouble(symbol, SYMBOL_VOLUME_MAX);
    double lotStep = SymbolInfoDouble(symbol, SYMBOL_VOLUME_STEP);
 
-   if (lot < lotMin)
+   if (lotMin > 0.0 && lotMin > lot)
       return lotMin;
    if (lotMax > 0.0 && lotMax < lot)
       return lotMax;
    if (lotStep <= 0.0)
-      return NormalizeDouble(lot, LotDigits(symbol));
-   if (lotStep >= lot)
+      return NormalizeDouble(lot > 0.0 ? lot : lotMin > 0.0 ? lotMin : lot, LotDigits(symbol));
+   if (lotStep > (lot + 0.00000001))
       return lotStep;
 
    return NormalizeDouble((int)(lot / lotStep) * lotStep, LotDigits(symbol));
