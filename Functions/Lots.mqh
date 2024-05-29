@@ -52,7 +52,7 @@ double NormalizeLot(double lot, string symbol = NULL)
       return lotMin;
    if (lotMax > 0.0 && lotMax < lot)
       return lotMax;
-   if (lotStep <= 0)
+   if (lotStep <= 0.0)
       return NormalizeDouble(lot, LotDigits(symbol));
    if (lotStep >= lot)
       return lotStep;
