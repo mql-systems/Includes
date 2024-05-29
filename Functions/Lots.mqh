@@ -63,9 +63,18 @@ double NormalizeLot(double lot, string symbol = NULL)
 //+------------------------------------------------------------------+
 //| Checking the lot on step                                         |
 //+------------------------------------------------------------------+
-bool CheckLotStep(double lot, double step)
+bool CheckLotStep(double lot, string symbol = NULL)
 {
-   double r = NormalizeDouble(lot / step, 2);
+   if (symbol == NULL)
+      symbol = _Symbol;
+
+   double lotStep = SymbolInfoDouble(symbol, SYMBOL_VOLUME_STEP);
+   if (lotStep <= 0.0)
+      return (lot > 0.0);
+   if (lotStep > (lot + 0.00000001))
+      return false;
+   
+   double r = NormalizeDouble(lot / lotStep, 2);
    
    return (NormalizeDouble(r-(int)r, 1) == 0.0);
 }
