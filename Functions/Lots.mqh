@@ -20,10 +20,10 @@ int LotDigits(string symbol = NULL)
 
    int res = 0;
    double lot = SymbolInfoDouble(symbol, SYMBOL_VOLUME_STEP);
-   if (lot == 0.0)
+   if (lot <= 0.0)
       lot = SymbolInfoDouble(symbol, SYMBOL_VOLUME_MIN);
    
-   if (MathMod(lot, 1) > 0.00000001)
+   if (MathMod(lot, 1) > 0.0)
    {
       do {
          res++;
