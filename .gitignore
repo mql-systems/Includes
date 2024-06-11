@@ -5,3 +5,6 @@
 # Sublime text
 *.sublime-project
 *.sublime-workspace
+
+# other libs
+SessionBox
