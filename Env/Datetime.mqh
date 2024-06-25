@@ -1,5 +1,5 @@
 //+------------------------------------------------------------------+
-//|                                                     MqlToMql.mqh |
+//|                                                     Datetime.mqh |
 //|                                            Diamond Systems Corp. |
 //|                                   https://github.com/mql-systems |
 //+------------------------------------------------------------------+
@@ -35,6 +35,20 @@ enum ENUM_HOURS
    HOUR_21, // 21:00
    HOUR_22, // 22:00
    HOUR_23  // 23:00
+};
+
+//+------------------------------------------------------------------+
+//| List of weeks                                                    |
+//+------------------------------------------------------------------+
+enum ENUM_WEEKS
+{
+   HOUR_SUN,  // Sunday
+   HOUR_MON,  // Monday
+   HOUR_TUE,  // Tuesday
+   HOUR_WED,  // Wednesday
+   HOUR_THU,  // Thursday
+   HOUR_FRI,  // Friday
+   HOUR_SAT,  // Saturday
 };
 
 //+------------------------------------------------------------------+
