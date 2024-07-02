@@ -1,11 +1,14 @@
-# MT4/5 & MQL4/5
+# ALL
+/*
+
+# Compiled files
 *.ex4
 *.ex5
+*.dll
 
-# Sublime text
-*.sublime-project
-*.sublime-workspace
-
-# other libs
-SessionBox
-LicenseCode
+# except...
+!.gitignore
+!LICENSE
+!README.md
+!/Env
+!/Functions
