@@ -9,9 +9,9 @@
 //+------------------------------------------------------------------+
 //| Compare double                                                   |
 //+------------------------------------------------------------------+
-bool CompareDouble(double d1, double d2)
+bool CompareDouble(double d1, double d2, int digits = 7)
 {
-   return (NormalizeDouble(d1 - d2, 8) == 0);
+   return (NormalizeDouble(d1 - d2, digits + 1) == 0);
 }
 
 //+------------------------------------------------------------------+
