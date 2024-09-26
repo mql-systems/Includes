@@ -1,14 +1,14 @@
-# ALL
-/*
+# # ALL
+# /*
 
-# Compiled files
-*.ex4
-*.ex5
-*.dll
+# # Compiled files
+# *.ex4
+# *.ex5
+# *.dll
 
-# except...
-!.gitignore
-!LICENSE
-!README.md
-!/Env
-!/Functions
+# # except...
+# !.gitignore
+# !LICENSE
+# !README.md
+# !/Env
+# !/Functions

@@ -7,7 +7,7 @@
 #property link      "https://github.com/mql-systems"
 
 #include "ChartObjects.mqh";
-#include <ChartObjects\ChartObjectsFibo.mqh>
+#include <ChartObjects/ChartObjectsFibo.mqh>
 
 CArrayObj g_ChartObjFibo;
 

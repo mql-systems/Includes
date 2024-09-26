@@ -7,7 +7,7 @@
 #property link      "https://github.com/mql-systems"
 
 #include "ChartObjects.mqh";
-#include <ChartObjects\ChartObjectsLines.mqh>
+#include <ChartObjects/ChartObjectsLines.mqh>
 
 CArrayObj g_ChartObjLines;
 

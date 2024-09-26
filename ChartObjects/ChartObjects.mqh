@@ -7,6 +7,6 @@
 #property link      "https://github.com/mql-systems"
 
 //--- includes
-#include <Arrays\ArrayObj.mqh>
+#include <Arrays/ArrayObj.mqh>
 
 //+------------------------------------------------------------------+
