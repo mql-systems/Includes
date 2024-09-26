@@ -54,6 +54,7 @@ bool CPositions::IsPositionSell(const string symbol = NULL)
 /**
  * To check: are there any open positions
  * 
+ * @param  positionType: Position type
  * @param  symbol: Symbol
  * @return ( bool )
  */
@@ -95,6 +96,7 @@ int CPositions::SellPositionsTotal(const string symbol = NULL)
 /**
  * Get the number of open positions
  * 
+ * @param  positionType: Position type
  * @param  symbol: Symbol
  * @return ( int )
  */
@@ -116,8 +118,8 @@ int CPositions::PositionsTotal(const ENUM_POSITION_TYPE positionType, string sym
 /**
  * Get the number of open positions by type
  * 
- * @param  buyPositionCount: gets the number of BUY positions
- * @param  sellPositionCount: gets the number of SELL positions
+ * @param  buyPositionCount: Gets the number of BUY positions
+ * @param  sellPositionCount: Gets the number of SELL positions
  * @param  symbol: Symbol
  */
 void CPositions::PositionsTotal(int &buyPositionCount, int &sellPositionCount, string symbol = NULL)
