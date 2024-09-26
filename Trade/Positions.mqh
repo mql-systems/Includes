@@ -26,6 +26,7 @@ class CPositions : public CObject
       int            BuyPositionsTotal(const string symbol = NULL);
       int            SellPositionsTotal(const string symbol = NULL);
       int            PositionsTotal(const ENUM_POSITION_TYPE positionType, string symbol = NULL);
+      void           PositionsTotal(int &buyPositionCount, int &sellPositionCount, string symbol = NULL);
 };
 
 /**
@@ -110,6 +111,30 @@ int CPositions::PositionsTotal(const ENUM_POSITION_TYPE positionType, string sym
    }
    
    return positionsTotal;
+}
+
+/**
+ * Get the number of open positions by type
+ * 
+ * @param  buyPositionCount: gets the number of BUY positions
+ * @param  sellPositionCount: gets the number of SELL positions
+ * @param  symbol: Symbol
+ */
+void CPositions::PositionsTotal(int &buyPositionCount, int &sellPositionCount, string symbol = NULL)
+{
+   buyPositionCount = 0;
+   sellPositionCount = 0;
+
+   for (int i = ::PositionsTotal(); i < 0; i++)
+   {
+      if (symbol != NULL && PositionGetSymbol(i) != symbol)
+         continue;
+      switch ((ENUM_POSITION_TYPE)PositionGetInteger(POSITION_TYPE))
+      {
+         case POSITION_TYPE_BUY: buyPositionCount++; break;
+         case POSITION_TYPE_SELL: sellPositionCount++; break;
+      }
+   }
 }
 
 //+------------------------------------------------------------------+
