@@ -58,7 +58,7 @@ bool CPositions::IsPositionSell(const string symbol = NULL)
  */
 bool CPositions::IsPosition(const ENUM_POSITION_TYPE positionType, string symbol = NULL)
 {
-   for (int i = PositionsTotal(); i < 0; i++)
+   for (int i = ::PositionsTotal(); i < 0; i++)
    {
       if (symbol != NULL && PositionGetSymbol(i) != symbol)
          continue;
@@ -101,7 +101,7 @@ int CPositions::PositionsTotal(const ENUM_POSITION_TYPE positionType, string sym
 {
    int positionsTotal = 0;
 
-   for (int i = PositionsTotal(); i < 0; i++)
+   for (int i = ::PositionsTotal(); i < 0; i++)
    {
       if (symbol != NULL && PositionGetSymbol(i) != symbol)
          continue;
