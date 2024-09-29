@@ -8,6 +8,12 @@
 
 #include <Object.mqh>
 
+struct PositionDeviations
+{
+   string symbol;
+   ulong  deviation;
+};
+
 //+------------------------------------------------------------------+
 //| Class CPositions.                                                |
 //| Appointment: A class for getting information from multiple       |
@@ -16,9 +22,17 @@
 //+------------------------------------------------------------------+
 class CPositions : public CObject
 {
+   private:
+      PositionDeviations m_positionDeviations[];
+      //---
+      int            SearchDeviation(const string &symbol);
+
    public:
                      CPositions(void) {};
                     ~CPositions(void) {};
+      //---
+      void           SetDeviation(const string symbol, const ulong deviation);
+      ulong          GetDeviation(const string symbol);
       //---
       bool           IsBuy(const string symbol = NULL);
       bool           IsSell(const string symbol = NULL);
@@ -29,6 +43,57 @@ class CPositions : public CObject
       int            Count(const ENUM_POSITION_TYPE positionType, string symbol = NULL);
       void           Count(int &buyPositionCount, int &sellPositionCount, string symbol = NULL);
 };
+
+/**
+ * Searches for Deviation in the array and returns the found index or -1
+ * 
+ * @param  symbol: Symbol
+ * @return ( int )
+ */
+int CPositions::SearchDeviation(const string &symbol)
+{
+   int deviationsCnt = ArraySize(m_positionDeviations);
+   for (int i = 0; i < deviationsCnt; i++)
+   {
+      if (m_positionDeviations[i].symbol == symbol)
+         return i;
+   }
+   return -1;
+}
+
+/**
+ * Setting the Deviation of the symbol for further use
+ * 
+ * @param  symbol: Symbol
+ * @param  deviation: Deviation
+ */
+void CPositions::SetDeviation(const string symbol, const ulong deviation)
+{
+   int deviationArrPos = SearchDeviation(symbol);
+   if (deviationArrPos < 0)
+   {
+      deviationArrPos = ArraySize(m_positionDeviations);
+      ArrayResize(m_positionDeviations, deviationArrPos + 1);
+      
+   }
+   m_positionDeviations[deviationArrPos].symbol = symbol;
+   m_positionDeviations[deviationArrPos].deviation = deviation;
+}
+
+/**
+ * Getting the deviation set for the symbol
+ * 
+ * @param  symbol: Symbol
+ * @return ( ulong )
+ */
+ulong CPositions::GetDeviation(const string symbol)
+{
+   int deviationArrPos = SearchDeviation(symbol);
+   if (deviationArrPos < 0)
+      return UINT_MAX;
+   else
+      return m_positionDeviations[deviationArrPos].deviation;
+}
 
 /**
  * To check: whether there are open BUY positions
