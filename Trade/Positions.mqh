@@ -130,7 +130,7 @@ bool CPositions::IsOpen(const ENUM_POSITION_TYPE positionType, const string symb
    {
       if (symbol != NULL && PositionGetSymbol(i) != symbol)
          continue;
-      if (PositionGetInteger(POSITION_TYPE) == positionType)
+      if ((ENUM_POSITION_TYPE)PositionGetInteger(POSITION_TYPE) == positionType)
          return true;
    }
    
@@ -174,7 +174,7 @@ int CPositions::Count(const ENUM_POSITION_TYPE positionType, const string symbol
    {
       if (symbol != NULL && PositionGetSymbol(i) != symbol)
          continue;
-      if (PositionGetInteger(POSITION_TYPE) == positionType)
+      if ((ENUM_POSITION_TYPE)PositionGetInteger(POSITION_TYPE) == positionType)
          positionsTotal++;
    }
    
