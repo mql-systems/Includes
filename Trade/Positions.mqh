@@ -20,13 +20,14 @@ class CPositions : public CObject
                      CPositions(void) {};
                     ~CPositions(void) {};
       //---
-      bool           IsPositionBuy(const string symbol = NULL);
-      bool           IsPositionSell(const string symbol = NULL);
-      bool           IsPosition(const ENUM_POSITION_TYPE positionType, string symbol = NULL);
-      int            BuyPositionsTotal(const string symbol = NULL);
-      int            SellPositionsTotal(const string symbol = NULL);
-      int            PositionsTotal(const ENUM_POSITION_TYPE positionType, string symbol = NULL);
-      void           PositionsTotal(int &buyPositionCount, int &sellPositionCount, string symbol = NULL);
+      bool           IsBuy(const string symbol = NULL);
+      bool           IsSell(const string symbol = NULL);
+      bool           IsOpen(const ENUM_POSITION_TYPE positionType, string symbol = NULL);
+      //---
+      int            CountBuy(const string symbol = NULL);
+      int            CountSell(const string symbol = NULL);
+      int            Count(const ENUM_POSITION_TYPE positionType, string symbol = NULL);
+      void           Count(int &buyPositionCount, int &sellPositionCount, string symbol = NULL);
 };
 
 /**
@@ -35,9 +36,9 @@ class CPositions : public CObject
  * @param  symbol: Symbol
  * @return ( bool )
  */
-bool CPositions::IsPositionBuy(const string symbol = NULL)
+bool CPositions::IsBuy(const string symbol = NULL)
 {
-   return IsPosition(POSITION_TYPE_BUY, symbol);
+   return IsOpen(POSITION_TYPE_BUY, symbol);
 }
 
 /**
@@ -46,9 +47,9 @@ bool CPositions::IsPositionBuy(const string symbol = NULL)
  * @param  symbol: Symbol
  * @return ( bool )
  */
-bool CPositions::IsPositionSell(const string symbol = NULL)
+bool CPositions::IsSell(const string symbol = NULL)
 {
-   return IsPosition(POSITION_TYPE_SELL, symbol);
+   return IsOpen(POSITION_TYPE_SELL, symbol);
 }
 
 /**
@@ -58,7 +59,7 @@ bool CPositions::IsPositionSell(const string symbol = NULL)
  * @param  symbol: Symbol
  * @return ( bool )
  */
-bool CPositions::IsPosition(const ENUM_POSITION_TYPE positionType, string symbol = NULL)
+bool CPositions::IsOpen(const ENUM_POSITION_TYPE positionType, string symbol = NULL)
 {
    for (int i = ::PositionsTotal(); i < 0; i++)
    {
@@ -77,9 +78,9 @@ bool CPositions::IsPosition(const ENUM_POSITION_TYPE positionType, string symbol
  * @param  symbol: Symbol
  * @return ( int )
  */
-int CPositions::BuyPositionsTotal(const string symbol = NULL)
+int CPositions::CountBuy(const string symbol = NULL)
 {
-   return PositionsTotal(POSITION_TYPE_BUY, symbol);
+   return Count(POSITION_TYPE_BUY, symbol);
 }
 
 /**
@@ -88,9 +89,9 @@ int CPositions::BuyPositionsTotal(const string symbol = NULL)
  * @param  symbol: Symbol
  * @return ( int )
  */
-int CPositions::SellPositionsTotal(const string symbol = NULL)
+int CPositions::CountSell(const string symbol = NULL)
 {
-   return IsPosition(POSITION_TYPE_SELL, symbol);
+   return Count(POSITION_TYPE_SELL, symbol);
 }
 
 /**
@@ -100,7 +101,7 @@ int CPositions::SellPositionsTotal(const string symbol = NULL)
  * @param  symbol: Symbol
  * @return ( int )
  */
-int CPositions::PositionsTotal(const ENUM_POSITION_TYPE positionType, string symbol = NULL)
+int CPositions::Count(const ENUM_POSITION_TYPE positionType, string symbol = NULL)
 {
    int positionsTotal = 0;
 
@@ -122,7 +123,7 @@ int CPositions::PositionsTotal(const ENUM_POSITION_TYPE positionType, string sym
  * @param  sellPositionCount: Gets the number of SELL positions
  * @param  symbol: Symbol
  */
-void CPositions::PositionsTotal(int &buyPositionCount, int &sellPositionCount, string symbol = NULL)
+void CPositions::Count(int &buyPositionCount, int &sellPositionCount, string symbol = NULL)
 {
    buyPositionCount = 0;
    sellPositionCount = 0;
