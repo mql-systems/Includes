@@ -6,94 +6,33 @@
 #property copyright "Copyright 2024, Diamond Systems Corp."
 #property link      "https://github.com/mql-systems/Includes"
 
-#include <Object.mqh>
-
-struct PositionDeviations
-{
-   string symbol;
-   ulong  deviation;
-};
+#include "TradeData.mqh"
 
 //+------------------------------------------------------------------+
 //| Class CPositions.                                                |
-//| Appointment: A class for getting information from multiple       |
-//|              positions.                                          |
+//| Appointment: A class for working with positions                  |
 //|              Derives from class CObject.                         |
 //+------------------------------------------------------------------+
-class CPositions : public CObject
+class CPositions : public CTradeData
 {
-   private:
-      PositionDeviations m_positionDeviations[];
-      //---
-      int            SearchDeviation(const string &symbol);
-
    public:
-                     CPositions(void) {};
-                    ~CPositions(void) {};
+                        CPositions(void) {};
+                       ~CPositions(void) {};
       //---
-      void           SetDeviation(const string symbol, const ulong deviation);
-      ulong          GetDeviation(const string symbol);
+      bool              IsBuy(const string symbol = NULL);
+      bool              IsSell(const string symbol = NULL);
+      bool              IsOpen(const ENUM_POSITION_TYPE positionType, const string symbol = NULL);
       //---
-      bool           IsBuy(const string symbol = NULL);
-      bool           IsSell(const string symbol = NULL);
-      bool           IsOpen(const ENUM_POSITION_TYPE positionType, const string symbol = NULL);
+      int               CountBuy(const string symbol = NULL);
+      int               CountSell(const string symbol = NULL);
+      int               Count(const ENUM_POSITION_TYPE positionType, const string symbol = NULL);
+      void              Count(int &buyPositionCount, int &sellPositionCount, const string symbol = NULL);
       //---
-      int            CountBuy(const string symbol = NULL);
-      int            CountSell(const string symbol = NULL);
-      int            Count(const ENUM_POSITION_TYPE positionType, const string symbol = NULL);
-      void           Count(int &buyPositionCount, int &sellPositionCount, const string symbol = NULL);
+      bool              Close(const ulong ticket);
+      bool              CloseAllBuy(const string symbol = NULL, const ulong magic = NULL);
+      bool              CloseAllSell(const string symbol = NULL, const ulong magic = NULL);
+      bool              CloseAll(const string symbol = NULL, const ulong magic = NULL);
 };
-
-/**
- * Searches for Deviation in the array and returns the found index or -1
- * 
- * @param  symbol: Symbol
- * @return ( int )
- */
-int CPositions::SearchDeviation(const string &symbol)
-{
-   int deviationsCnt = ArraySize(m_positionDeviations);
-   for (int i = 0; i < deviationsCnt; i++)
-   {
-      if (m_positionDeviations[i].symbol == symbol)
-         return i;
-   }
-   return -1;
-}
-
-/**
- * Setting the Deviation of the symbol for further use
- * 
- * @param  symbol: Symbol
- * @param  deviation: Deviation
- */
-void CPositions::SetDeviation(const string symbol, const ulong deviation)
-{
-   int deviationArrPos = SearchDeviation(symbol);
-   if (deviationArrPos < 0)
-   {
-      deviationArrPos = ArraySize(m_positionDeviations);
-      ArrayResize(m_positionDeviations, deviationArrPos + 1);
-      
-   }
-   m_positionDeviations[deviationArrPos].symbol = symbol;
-   m_positionDeviations[deviationArrPos].deviation = deviation;
-}
-
-/**
- * Getting the deviation set for the symbol
- * 
- * @param  symbol: Symbol
- * @return ( ulong )
- */
-ulong CPositions::GetDeviation(const string symbol)
-{
-   int deviationArrPos = SearchDeviation(symbol);
-   if (deviationArrPos < 0)
-      return UINT_MAX;
-   else
-      return m_positionDeviations[deviationArrPos].deviation;
-}
 
 /**
  * To check: whether there are open BUY positions
@@ -203,6 +142,67 @@ void CPositions::Count(int &buyPositionCount, int &sellPositionCount, const stri
          case POSITION_TYPE_SELL: sellPositionCount++; break;
       }
    }
+}
+
+/**
+ * Close by ticket
+ * 
+ * @param  ticket: Position ticket
+ * @return ( bool )
+ */
+bool CPositions::Close(const ulong ticket)
+{
+   //--- check stopped
+   if (IsStopped(__FUNCTION__))
+      return false;
+
+   //--- check position existence
+   if (! PositionSelectByTicket(ticket))
+      return false;
+   
+   //--- clean
+   ClearStructures();
+   
+   //--- check filling
+   string symbol = PositionGetString(POSITION_SYMBOL);
+   if (! FillingCheck(symbol))
+      return false;
+   
+   //--- setting request
+   if ((ENUM_POSITION_TYPE)PositionGetInteger(POSITION_TYPE) == POSITION_TYPE_BUY)
+   {
+      //--- prepare request for close BUY position
+      m_request.type  = ORDER_TYPE_SELL;
+      m_request.price = SymbolInfoDouble(symbol, SYMBOL_BID);
+   }
+   else
+   {
+      //--- prepare request for close SELL position
+      m_request.type  = ORDER_TYPE_BUY;
+      m_request.price = SymbolInfoDouble(symbol, SYMBOL_ASK);
+   }
+   m_request.action    = TRADE_ACTION_DEAL;
+   m_request.position  = ticket;
+   m_request.symbol    = symbol;
+   m_request.volume    = PositionGetDouble(POSITION_VOLUME);
+   m_request.magic     = m_magic;
+   m_request.deviation = GetDeviation(symbol);
+
+   //--- close position
+   return OrderSend(m_request, m_result);
+}
+
+bool CPositions::CloseAllBuy(const string symbol, const ulong magic)
+{
+   return true;
+}
+bool CPositions::CloseAllSell(const string symbol, const ulong magic)
+{
+   return true;
+}
+bool CPositions::CloseAll(const string symbol, const ulong magic)
+{
+   return true;
 }
 
 //+------------------------------------------------------------------+
