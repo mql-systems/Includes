@@ -192,17 +192,76 @@ bool CPositions::Close(const ulong ticket)
    return OrderSend(m_request, m_result);
 }
 
+/**
+ * Close all BUY positions
+ * 
+ * @param  symbol: Saymbol
+ * @param  magic: Magic number
+ * @return ( bool )
+ */
 bool CPositions::CloseAllBuy(const string symbol, const ulong magic)
 {
    return true;
 }
+
 bool CPositions::CloseAllSell(const string symbol, const ulong magic)
 {
    return true;
 }
+
 bool CPositions::CloseAll(const string symbol, const ulong magic)
 {
-   return true;
+   //--- check stopped
+   if (IsStopped(__FUNCTION__))
+      return false;
+   
+   string _symbol;
+   int posTotal = ::PositionsTotal();
+   MqlTradeRequest arrRequest[];
+   int cntArrRequest = 0;
+
+   for (int i = 0; i < posTotal; i++)
+   {
+      if (symbol != NULL && PositionGetSymbol(i) != symbol)
+         continue;
+      if (magic > 0 && magic != PositionGetInteger(POSITION_MAGIC))
+         continue;
+      
+      //--- clean
+      ClearStructures();
+      
+      //--- check filling
+      _symbol = PositionGetString(POSITION_SYMBOL);
+      if (! FillingCheck(_symbol))
+         return false;
+      
+      //--- setting request
+      if ((ENUM_POSITION_TYPE)PositionGetInteger(POSITION_TYPE) == POSITION_TYPE_BUY)
+      {
+         //--- prepare request for close BUY position
+         m_request.type  = ORDER_TYPE_SELL;
+         m_request.price = SymbolInfoDouble(_symbol, SYMBOL_BID);
+      }
+      else
+      {
+         //--- prepare request for close SELL position
+         m_request.type  = ORDER_TYPE_BUY;
+         m_request.price = SymbolInfoDouble(_symbol, SYMBOL_ASK);
+      }
+
+      m_request.action    = TRADE_ACTION_DEAL;
+      m_request.position  = PositionGetInteger(POSITION_TICKET);
+      m_request.symbol    = _symbol;
+      m_request.volume    = PositionGetDouble(POSITION_VOLUME);
+      m_request.magic     = m_magic;
+      m_request.deviation = GetDeviation(_symbol);
+
+      ArrayResize(arrRequest, cntArrRequest, 5);
+      arrRequest[++cntArrRequest] = m_request;
+   }
+
+   //--- close position
+   return OrderSendAsync(m_request, m_result);
 }
 
 //+------------------------------------------------------------------+
