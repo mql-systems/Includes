@@ -8,6 +8,12 @@
 
 #include <Object.mqh>
 
+enum ENUM_TRADE_RETCODE_CHECK {
+   RETCODE_CHECK_FALSE,    // Failed request
+   RETCODE_CHECK_TRUE,     // Successful request
+   RETCODE_CHECK_UPDATE,   // Update the data and resend
+};
+
 struct TradeData
 {
    string symbol;
@@ -21,6 +27,10 @@ struct TradeData
 //+------------------------------------------------------------------+
 class CTradeData : public CObject
 {
+   private:
+      uint              m_checkRetcodeRequestId;
+      int               m_checkRetcodeRequestCnt;
+
    protected:
       MqlTradeRequest   m_request;                 // request data
       MqlTradeResult    m_result;                  // result data
@@ -37,6 +47,9 @@ class CTradeData : public CObject
       void              SetDeviation(const ulong deviation)                   { m_deviation = deviation; }
       void              SetMagicNumber(const ulong magic)                     { m_magic = magic;         }
       void              SetTypeFilling(const ENUM_ORDER_TYPE_FILLING filling) { m_typeFilling = filling; }
+      //--- check retcode
+      ENUM_TRADE_RETCODE_CHECK RetcodeCheck(void);
+      ENUM_TRADE_RETCODE_CHECK RetcodeCheck(const MqlTradeResult &result);
    
    protected:
       void              ClearStructures(void);
@@ -50,7 +63,9 @@ class CTradeData : public CObject
 /**
  * Constructor
  */
-CTradeData::CTradeData(void) : m_magic(0),
+CTradeData::CTradeData(void) : m_checkRetcodeRequestId(0),
+                               m_checkRetcodeRequestCnt(0),
+                               m_magic(0),
                                m_deviation(10),
                                m_typeFilling(ORDER_FILLING_FOK)
 {
@@ -290,6 +305,70 @@ bool CTradeData::ExpirationCheck(const string symbol)
    
    //--- failed
    return false;
+}
+
+/**
+ * Check and Process OrderSend Response
+ * @return ( ENUM_TRADE_RETCODE_CHECK )
+ */
+ENUM_TRADE_RETCODE_CHECK CTradeData::RetcodeCheck(void)
+{
+   return RetcodeCheck(m_result);
+}
+
+/**
+ * Check and Process OrderSend Response
+ * 
+ * @param  result: MqlTradeResult data
+ * @return ( ENUM_TRADE_RETCODE_CHECK )
+ */
+ENUM_TRADE_RETCODE_CHECK CTradeData::RetcodeCheck(const MqlTradeResult &result)
+{
+   if (result.request_id == m_checkRetcodeRequestId)
+      m_checkRetcodeRequestCnt++;
+   else
+   {
+      m_checkRetcodeRequestId = result.request_id;
+      m_checkRetcodeRequestCnt = 1;
+   }
+   
+   switch (result.retcode)
+   {
+      case TRADE_RETCODE_PLACED:
+      case TRADE_RETCODE_DONE:
+      case TRADE_RETCODE_DONE_PARTIAL:
+      case TRADE_RETCODE_ORDER_CHANGED:
+      case TRADE_RETCODE_POSITION_CLOSED:
+         return RETCODE_CHECK_TRUE;
+      //---
+      case TRADE_RETCODE_ERROR:
+      case TRADE_RETCODE_TIMEOUT:
+      case TRADE_RETCODE_INVALID_CLOSE_VOLUME:
+         return (m_checkRetcodeRequestCnt > 2) ? RETCODE_CHECK_FALSE : RETCODE_CHECK_UPDATE;
+      //---
+      case TRADE_RETCODE_REJECT:
+      case TRADE_RETCODE_PRICE_CHANGED:
+         return (m_checkRetcodeRequestCnt > 3) ? RETCODE_CHECK_FALSE : RETCODE_CHECK_UPDATE;
+      //---
+      case TRADE_RETCODE_REQUOTE:
+         return (m_checkRetcodeRequestCnt > 5) ? RETCODE_CHECK_FALSE : RETCODE_CHECK_UPDATE;
+      //---
+      case TRADE_RETCODE_PRICE_OFF:
+         if (m_checkRetcodeRequestCnt > 3)
+            return RETCODE_CHECK_FALSE;
+         Sleep(500 * m_checkRetcodeRequestCnt);
+         return RETCODE_CHECK_UPDATE;
+      //---
+      case TRADE_RETCODE_TOO_MANY_REQUESTS:
+      case TRADE_RETCODE_CONNECTION:
+         if (m_checkRetcodeRequestCnt > 10)
+            return RETCODE_CHECK_FALSE;
+         Sleep(1000 * m_checkRetcodeRequestCnt);
+         return RETCODE_CHECK_UPDATE;
+      //---
+      default:
+         return RETCODE_CHECK_FALSE;
+   }
 }
 
 //+------------------------------------------------------------------+
