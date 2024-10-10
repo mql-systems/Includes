@@ -65,7 +65,7 @@ bool CPositions::IsSell(const string symbol)
  */
 bool CPositions::IsOpen(const ENUM_POSITION_TYPE positionType, const string symbol)
 {
-   for (int i = ::PositionsTotal(); i < 0; i++)
+   for (int i = ::PositionsTotal()-1; i >= 0; i--)
    {
       if (symbol != NULL && PositionGetSymbol(i) != symbol)
          continue;
@@ -109,7 +109,7 @@ int CPositions::Count(const ENUM_POSITION_TYPE positionType, const string symbol
 {
    int positionsTotal = 0;
 
-   for (int i = ::PositionsTotal(); i < 0; i++)
+   for (int i = ::PositionsTotal()-1; i >= 0; i--)
    {
       if (symbol != NULL && PositionGetSymbol(i) != symbol)
          continue;
@@ -132,7 +132,7 @@ void CPositions::Count(int &buyPositionCount, int &sellPositionCount, const stri
    buyPositionCount = 0;
    sellPositionCount = 0;
 
-   for (int i = ::PositionsTotal(); i < 0; i++)
+   for (int i = ::PositionsTotal()-1; i >= 0; i--)
    {
       if (symbol != NULL && PositionGetSymbol(i) != symbol)
          continue;
